@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grep Commands</title>
+</head>
+<body>
+    <div>
+        <article>
+            <h2>Common Grep Commands</h2>
+            <ul>
+                <li><code>grep 'pattern' file.txt</code> - Search for 'pattern' in file.txt</li>
+                <li><code>grep -i 'pattern' file.txt</code> - Case-insensitive search</li>
+                <li><code>grep -r 'pattern' /path/to/directory</code> - Recursive search in a directory</li>
+                <li><code>grep -n 'pattern' file.txt</code> - Show line numbers with matches</li>
+                <li><code>grep -v 'pattern' file.txt</code> - Invert match (show lines that do not match)</li>
+                <li><code>grep -E 'pattern1|pattern2' file.txt</code> - Use extended regex for multiple patterns</li>
+            </ul>
+        </article>
+        <article>
+            <h3>Locate Files with <i>find</i> and <i>locate</i></h3>
+            <ul>
+                <li><code>find /path -name "filename"                  # Find by exact name pattern</code></li>
+                <li><code>find . -iname "*report*.pdf"                 # Case-insensitive; partial name</code></li>
+                <li><code>find /home -type f -name "*.conf"            # Files only</code></li>
+                <li><code>find /var -type d -name "cache"              # Directories only</code></li>
+                <li><code>find . -name "*.log" -mtime -7               # Modified within the last 7 days</code></li>
+                <li><code>find . -name "*.log" -size +100M             # Larger than 100 MB</code></li>
+            </ul>
+        </article>
+    </div>
+</body>
+</html>

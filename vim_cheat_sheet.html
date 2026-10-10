@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vim Commands</title>
+</head>
+<body>
+    <div>
+        <article>
+            <h2>Vim Commands</h2>
+            <h3>Modes</h3>
+            <ul>
+                <li><strong>i</strong> — insert before cursor; <strong>a</strong> — insert after cursor</li>
+                <li><strong>o</strong> / <strong>O</strong> — open a line below / above</li>
+                <li><strong>Esc</strong> — return to Normal mode</li>
+                <li><strong>:</strong> — enter Command-line mode</li>
+            </ul>
+            <h3>Move around (Normal mode)</h3>
+            <ul>
+                <li><strong>h</strong> / <strong>j</strong> / <strong>k</strong> / <strong>l</strong> — left, down, up, right</li>
+                <li><strong>w</strong> / <strong>b</strong> — next / previous word</li>
+                <li><strong>0</strong> / <strong>$</strong> — start / end of line</li>
+                <li><strong>gg</strong> / <strong>G</strong> — first / last line</li>
+                <li><strong>:number</strong> — jump to a line, e.g. :25</li>
+                <li><strong>Ctrl-d</strong> / <strong>Ctrl-u</strong> — scroll down / up half a screen</li>
+            </ul>
+            <h3>Edit</h3>
+            <ul>
+                <li><strong>x</strong> — delete character</li>
+                <li><strong>dd</strong> — delete line; <strong>yy</strong> — copy line; <strong>p</strong> — paste after cursor</li>
+                <li><strong>dw</strong> — delete word; <strong>D</strong> — delete to end of line</li>
+                <li><strong>u</strong> — undo; <strong>Ctrl-r</strong> — redo</li>
+                <li><strong>r{char}</strong> — replace one character</li>
+                <li><strong>ciw</strong> — change the word under the cursor</li>
+                <li><strong>.</strong> — repeat the last change</li>
+            </ul>
+            <h3>Search and replace</h3>
+            <ul>
+                <li><strong>/text</strong> — search forward; <strong>?text</strong> — search backward</li>
+                <li><strong>n</strong> / <strong>N</strong> — next / previous match</li>
+                <li><strong>:%s/old/new/g</strong> — replace all occurrences in the file</li>
+                <li><strong>:%s/old/new/gc</strong> — replace all, confirming each</li>
+            </ul>
+            <h3>Save and quit</h3>
+            <ul>
+                <li><strong>:w</strong> — save</li>
+                <li><strong>:q</strong> — quit</li>
+                <li><strong>:wq</strong> or <strong>ZZ</strong> — save and quit</li>
+                <li><strong>:q!</strong> — quit without saving</li>
+                <li><strong>:e filename</strong> — open a file</li>
+            </ul>
+        </article>
+    </div>
+</body>
+</html>
