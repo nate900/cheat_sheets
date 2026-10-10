@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Docker Cheat Sheet</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17212b;
+      --muted: #526170;
+      --blue: #087ea4;
+      --pale: #eaf6fa;
+      --code: #f1f4f6;
+      --border: #d8e0e5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      color: var(--ink);
+      background: #f7f9fa;
+      font: 16px/1.55 system-ui, sans-serif;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 18px #17212b10;
+    }
+
+    h1 { margin-top: 0; color: var(--blue); }
+    h2 {
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p, li { color: var(--muted); }
+    code {
+      padding: 0.12rem 0.3rem;
+      background: var(--code);
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 1rem;
+      background: var(--code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    pre code { padding: 0; background: none; }
+    .note {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--pale);
+      border-left: 4px solid var(--blue);
+      border-radius: 4px;
+    }
+
+    @media print {
+      body { padding: 0; background: white; }
+      main { max-width: none; padding: 0; border: 0; box-shadow: none; }
+      pre { white-space: pre-wrap; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Docker Cheat Sheet</h1>
+    <p><strong>Basic workflow:</strong> build or pull an image → run a container → inspect it → stop or remove it.</p>
+
+    <h2>Images</h2>
+    <pre><code>docker pull nginx                         # Download an image
+docker images                             # List local images
+docker build -t my-app:latest .           # Build from Dockerfile in current directory
+docker rmi my-app:latest                  # Remove an image
+docker push username/my-app:latest        # Upload an image</code></pre>
+
+    <h2>Containers</h2>
+    <pre><code>docker run --name web -d -p 8080:80 nginx # Run in background; host port 8080 → container port 80
+docker ps                                 # List running containers
+docker ps -a                              # List all containers, including stopped
+docker stop web                           # Stop a container
+docker start web                          # Start a stopped container
+docker restart web                        # Restart a container
+docker rm web                             # Remove a stopped container
+docker rm -f web                          # Force-remove a container</code></pre>
+
+    <p>Common <code>docker run</code> flags:</p>
+    <ul>
+      <li><code>-d</code> — run in the background</li>
+      <li><code>-it</code> — interactive terminal</li>
+      <li><code>--name NAME</code> — assign a name</li>
+      <li><code>-p HOST:CONTAINER</code> — publish a port</li>
+      <li><code>-v SOURCE:DEST</code> — mount a volume or host directory</li>
+      <li><code>--rm</code> — remove the container automatically when it exits</li>
+    </ul>
+
+    <h2>Debugging and inspection</h2>
+    <pre><code>docker logs web                           # Show logs
+docker logs -f web                        # Follow logs live
+docker exec -it web sh                    # Open a shell in a running container
+docker inspect web                        # Show detailed configuration
+docker stats                              # Show live resource usage
+docker cp web:/path/file ./file            # Copy a file from container to host</code></pre>
+
+    <h2>Volumes and networks</h2>
+    <pre><code>docker volume ls                          # List volumes
+docker volume create app-data             # Create a named volume
+docker run -v app-data:/data my-app       # Mount it at /data
+
+docker network ls                         # List networks
+docker network create app-net             # Create a network
+docker run --network app-net my-app       # Connect a container to it</code></pre>
+
+    <h2>Docker Compose</h2>
+    <pre><code>docker compose up -d                      # Build if needed and start services
+docker compose ps                         # List Compose services
+docker compose logs -f                    # Follow service logs
+docker compose exec &lt;service&gt; sh          # Open a shell in a service
+docker compose down                       # Stop and remove services/networks</code></pre>
+
+    <h2>Cleanup</h2>
+    <pre><code>docker system df                          # See Docker disk usage
+docker container prune                    # Remove stopped containers
+docker image prune                        # Remove unused images
+docker system prune                       # Remove unused containers, networks, images, and build cache</code></pre>
+
+    <aside class="note">
+      <strong>Tip:</strong> Containers are disposable, so use a volume or bind mount for data you need to keep.
+      Cleanup commands remove unused resources; review what will be deleted before confirming.
+    </aside>
+  </main>
+</body>
+</html>
