@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>curl Cheat Sheet</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --text: #17212b;
+      --muted: #526170;
+      --accent: #086c75;
+      --code: #111923;
+      --code-text: #e7edf3;
+      --border: #d7dfe5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #10161c;
+        --panel: #18212a;
+        --text: #edf3f7;
+        --muted: #b0bec9;
+        --accent: #72d3d4;
+        --code: #0b1015;
+        --code-text: #e7edf3;
+        --border: #34424e;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    main { max-width: 980px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+    h1 { margin-bottom: .25rem; font-size: clamp(2rem, 5vw, 3rem); }
+    h2 { margin-top: 2rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; }
+    h3 { margin-bottom: .35rem; }
+    p, li { color: var(--muted); }
+    .intro { margin-top: 0; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 1rem 0;
+      padding: 1rem 1.2rem;
+    }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    pre {
+      overflow-x: auto;
+      background: var(--code);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+      margin: .6rem 0 1rem;
+      white-space: pre;
+    }
+    .flag { color: var(--accent); font-family: ui-monospace, monospace; }
+    a { color: var(--accent); }
+    @media print {
+      :root { color-scheme: light; --bg: white; --panel: white; --text: #111; --muted: #333; --border: #bbb; }
+      main { max-width: none; padding: 0; }
+      .card { break-inside: avoid; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>curl Cheat Sheet</h1>
+  <p class="intro">Common commands for making HTTP requests, downloading files, and working with APIs.</p>
+
+  <section class="card">
+    <h2>Basic pattern</h2>
+    <pre><code>curl [options] URL</code></pre>
+    <p>By default, curl sends the response body to the terminal. Put the URL in quotes if it contains characters your shell might interpret.</p>
+  </section>
+
+  <section class="card">
+    <h2>Request a page</h2>
+    <pre><code># Basic GET request
+curl "https://example.com"
+
+# Follow redirects
+curl -L "https://example.com"
+
+# Show response headers along with the body
+curl -i "https://example.com"
+
+# Request headers only
+curl -I "https://example.com"
+
+# Verbose connection and request details
+curl -v "https://example.com"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>Download and save files</h2>
+    <pre><code># Save response to a chosen filename
+curl -o page.html "https://example.com"
+
+# Save using the remote filename
+curl -O "https://example.com/archive.zip"
+
+# Follow redirects and save using the remote filename
+curl -L -O "https://example.com/archive.zip"
+
+# Resume a download
+curl -C - -O "https://example.com/archive.zip"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>HTTP methods and request data</h2>
+    <pre><code># GET with query parameters
+curl -G --data-urlencode "q=some words" "https://example.com/search"
+
+# POST form fields (curl sends a POST when using --data)
+curl --data "name=Sam&amp;city=Oslo" "https://example.com/submit"
+
+# POST JSON
+curl --request POST \
+  --header "Content-Type: application/json" \
+  --data '{"name":"Sam","active":true}' \
+  "https://api.example.com/items"
+
+# PATCH JSON
+curl --request PATCH \
+  --header "Content-Type: application/json" \
+  --data '{"active":false}' \
+  "https://api.example.com/items/123"
+
+# DELETE request
+curl --request DELETE "https://api.example.com/items/123"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>Headers and authentication</h2>
+    <pre><code># Add a request header
+curl --header "Accept: application/json" "https://api.example.com/items"
+
+# Bearer token (replace placeholder; avoid sharing real tokens)
+curl --header "Authorization: Bearer YOUR_TOKEN" \
+  "https://api.example.com/items"
+
+# Basic authentication (curl prompts for the password)
+curl --user "YOUR_USERNAME" "https://api.example.com/private"
+
+# Send cookies
+curl --cookie "session=YOUR_COOKIE_VALUE" "https://example.com"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>Upload files</h2>
+    <pre><code># Multipart form upload
+curl --form "description=Sample file" \
+  --form "file=@./report.pdf" \
+  "https://example.com/upload"
+
+# Send a file's contents as the request body
+curl --upload-file "./archive.zip" "https://example.com/upload/archive.zip"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>Useful options</h2>
+    <ul>
+      <li><span class="flag">-L, --location</span> — follow redirects.</li>
+      <li><span class="flag">-o FILE</span> — write output to a named file.</li>
+      <li><span class="flag">-O</span> — save using the remote filename.</li>
+      <li><span class="flag">-sS</span> — hide the progress meter but still show errors.</li>
+      <li><span class="flag">-i</span> — include response headers in output.</li>
+      <li><span class="flag">-I</span> — request headers only.</li>
+      <li><span class="flag">-H, --header</span> — add a request header.</li>
+      <li><span class="flag">--connect-timeout SECONDS</span> — set a connection timeout.</li>
+      <li><span class="flag">--max-time SECONDS</span> — limit the total transfer time.</li>
+      <li><span class="flag">--fail-with-body</span> — return an error for HTTP error responses while keeping the response body.</li>
+    </ul>
+    <pre><code># Quiet output, but show errors; stop after 20 seconds
+curl -sS --max-time 20 "https://example.com"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>See the HTTP status code</h2>
+    <pre><code>curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+  "https://example.com"</code></pre>
+    <p>On Windows PowerShell, use <code>NUL</code> instead of <code>/dev/null</code>:</p>
+    <pre><code>curl.exe -sS -o NUL -w "HTTP %{http_code}\n" "https://example.com"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>Quick tips</h2>
+    <ul>
+      <li>Use <code>--help</code> for a short options overview and <code>--manual</code> for the full manual.</li>
+      <li>For JSON, quote the data carefully; shell quoting differs between operating systems.</li>
+      <li>Avoid putting passwords or tokens directly in commands you may save in shell history.</li>
+      <li>Avoid <code>-k</code> / <code>--insecure</code> for routine use: it disables certificate verification.</li>
+      <li>For troubleshooting, try <code>-v</code>; it prints detailed request and connection information.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
